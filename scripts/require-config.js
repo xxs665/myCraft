@@ -1,0 +1,9 @@
+require.config({
+    baseUrl:"scripts",//
+    paths:{
+        jquery:"../bower_components/jquery/dist/jquery.min.js",
+        underscore:"../bower_components/underscore/underscore-min",
+        backbone:"../bower_components/backbone/backbone-min",
+        fastclick:"../bower_components/fastclick/lib/fastclick",
+    }
+});
