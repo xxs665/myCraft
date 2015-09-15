@@ -5,5 +5,6 @@ require.config({
         underscore:"../bower_components/underscore/underscore-min",
         backbone:"../bower_components/backbone/backbone-min",
         fastclick:"../bower_components/fastclick/lib/fastclick",
+        bootstrap: "../bower_components/bootstrap/dist/js/bootstrap.min"
     }
 });

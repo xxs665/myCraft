@@ -12,6 +12,21 @@
         return BaseView.__super__.constructor.apply(this, arguments);
       }
 
+      BaseView.prototype.render = function() {
+        var data;
+        data = {
+          collection: this.collection ? this.collection || {} : void 0
+        };
+        _.each(this.tmplHelpers, (function(_this) {
+          return function(helper, name) {
+            return _this.tmplHelpers[name] = _.template(helper);
+          };
+        })(this));
+        _.extend(data, this.tmplHelpers);
+        console.debug("data", this.tmplHelpers);
+        return this.$el.empty().html(_.template(this.tmpl)(data));
+      };
+
       BaseView.prototype.renderError = function(message) {
         var code, msg, res;
         code = null;

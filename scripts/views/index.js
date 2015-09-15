@@ -14,13 +14,28 @@
 
       Portal.prototype.className = "container";
 
-      Portal.prototype.initialize = function() {};
+      Portal.prototype.initialize = function() {
+        return this.render();
+      };
 
-      Portal.prototype.render = function() {};
+      Portal.prototype.collection = {
+        location: "深圳",
+        craftList: [
+          {
+            craftPhotoUrl: "#craft/1",
+            craftName: "1",
+            artistsAmount: 1,
+            star: "1",
+            craftID: "1"
+          }
+        ]
+      };
 
-      Portal.prototype.craftItem = "<li data-craft-id=<%-craftID%> >\n    <div class=\"craft-main-photo\">\n        <image src=\"<%-imgPath%>\">\n    </div>\n    <div class=\"craft-basic-info\">\n        <div class=\"craft-name\"><%-craftName%></div>\n        <div class=\"craft-detail-unit\"><%-artistAmount%>人</div>\n        <div class=\"craft-detail-unit\">今日之星:<%-star%></div>\n    </div>\n    <div class=\"craft-access\">\n        <a href=\"\">进入</a>\n    </div>\n</li>";
+      Portal.prototype.tmplHelpers = {
+        craftItem: "<div class=\"row craft-item\" data-craft-id=<%-craftID%>>\n    <div class=\"craft-main-photo col-xs-4\">\n        <image src=\"<%-craftPhotoUrl%>\">\n    </div>\n    <div class=\"craft-basic-info col-xs-6\">\n        <div class=\"craft-name \"><%-craftName%></div>\n        <div class=\"craft-detail-unit\"><%-artistsAmount%>人</div>\n        <div class=\"craft-detail-unit\">今日之星:<%-star%></div>\n    </div>\n    <div class=\"craft-access col-xs-2\">\n        <a href=\"\">进入</a>\n    </div>\n</div>"
+      };
 
-      Portal.prototype.tmpl = "<aside class=\"float-head\">\n    <div class=\"district-selector\"><%-collection.location%><span down-arrow></span></div>\n    <div class=\"user-link\">我</div>\n</aside>\n<div class=\"craft-list\">\n    <ul>\n        <% _.each(collection.craftList, function(item){ craftItem(item) })%>\n    </ul>\n</div>";
+      Portal.prototype.tmpl = "<nav class=\"top-nav row navbar-fixed-top\">\n    <div class=\"district-selector col-xs-4 text-center\"><%-collection.location%><span down-arrow></span></div>\n    <div class=\"user-link col-xs-4 text-center\">我</div>\n</nav>\n<div class=\"craft-list\">\n    <div>\n        <% _.each(collection.craftList, function(item){ print(craftItem(item)) })%>\n    <div>\n</div>";
 
       return Portal;
 

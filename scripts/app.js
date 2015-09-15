@@ -19,7 +19,7 @@
 
       ViewRouter.prototype.defaultView = "index";
 
-      ViewRouter.prototype.routers = {
+      ViewRouter.prototype.routes = {
         ":viewPath?*query": "navigateView",
         ":viewPath": "navigateView",
         "": "index"
@@ -42,14 +42,14 @@
         }
         this.trigger("when-view-render", dtd);
         renderViewWithClass = (function(_this) {
-          return function(viewClass, options) {
+          return function(ViewClass, options) {
             var render, view;
             options = _.extend({
               query: query,
               path: path
             }, options);
             view = new ViewClass(options);
-            view.$el.addClass("view-" + viewClass);
+            view.$el.addClass("view-" + path);
             render = view.render;
             if (render.then) {
               render.path = path;
@@ -60,13 +60,15 @@
             return dtd.resolve(view);
           };
         })(this);
-        return require(["views/" + viewPath], (function(_this) {
+        return require(["views/" + path], (function(_this) {
           return function(viewClass) {
+            console.debug("render:" + path);
             return renderViewWithClass(viewClass);
           };
         })(this), function(err) {
           require(["views/require-error"], (function(_this) {
             return function(ErrView) {
+              console.debug(err);
               return renderViewWithClass(ErrView, {
                 model: {
                   message: err
@@ -74,7 +76,7 @@
               });
             };
           })(this));
-          return dfd.reject(err);
+          return dtd.reject(err);
         });
       };
 
@@ -93,11 +95,14 @@
       AppClass.prototype.util = Util;
 
       AppClass.prototype.initialize = function() {
-        this.router = new ViewRouter();
+        this.router = new ViewRouter({});
+        this.$el.html("");
         this.router.on("view-loaded", (function(_this) {
           return function(view) {
             _this.loadView(view);
-            view.show();
+            if (typeof view.show === "function") {
+              view.show();
+            }
             if (view.title) {
               return document.title = view.title;
             }
@@ -117,7 +122,7 @@
         }
         this.$el.children().detach();
         this.currentView = view;
-        return this.$el.append(view.el);
+        return this.$el.html(view.el);
       };
 
       return AppClass;

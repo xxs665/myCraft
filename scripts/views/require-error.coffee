@@ -1,5 +1,5 @@
-define ["views/modelview"],(ModelView)->
-    class RequireErrorView extends ModelView
+define ["views/baseView"],(BaseView)->
+    class RequireErrorView extends BaseView
         className:"view-require-error"
         template: """
             <div class="container text-center">

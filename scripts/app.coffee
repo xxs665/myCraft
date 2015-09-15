@@ -6,7 +6,7 @@ define [
 
     class ViewRouter extends Backbone.Router
         defaultView : "index"
-        routers :
+        routes :
             ":viewPath?*query" : "navigateView"
             ":viewPath" : "navigateView"
             "" : "index"
@@ -22,10 +22,10 @@ define [
             path ?= @defaultView
             @trigger("when-view-render",dtd)
 
-            renderViewWithClass = (viewClass, options)=>
+            renderViewWithClass = (ViewClass, options)=>
                 options = _.extend({query : query, path : path}, options)
                 view = new ViewClass(options)
-                view.$el.addClass("view-#{viewClass}")
+                view.$el.addClass("view-#{path}")
                 render = view.render
                 if render.then
                     render.path = path
@@ -34,22 +34,25 @@ define [
                 @currentPath = path
                 dtd.resolve(view)
 
-            require ["views/#{viewPath}"], (viewClass) =>
+            require ["views/#{path}"], (viewClass) =>
+                console.debug "render:#{path}"
                 renderViewWithClass(viewClass)
             ,(err)->
                 require ["views/require-error"],(ErrView)=>
+                    console.debug err
                     renderViewWithClass(ErrView, model:{ message:err})
-                dfd.reject(err)
+                dtd.reject(err)
 
     class AppClass extends Backbone.View
         el:"#app"
         util: Util
 
         initialize:()->
-            @router = new ViewRouter()
+            @router = new ViewRouter({})
+            @$el.html("")
             @router.on "view-loaded", (view)=>
                 @loadView(view)
-                view.show()
+                view.show?()
                 if view.title then document.title = view.title
             $ -> Backbone.history.start()
 
@@ -58,6 +61,6 @@ define [
             @currentView?.trigger("remove").remove()
             @$el.children().detach()
             @currentView = view
-            @$el.append(view.el)
+            @$el.html(view.el)
     App = new AppClass()
     return App
