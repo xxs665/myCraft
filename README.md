@@ -15,6 +15,69 @@
 ###工艺列表
 -名称: `getAllCraft`
 -参数：
--返回：[
-	{craftPhotoUrl : "", craftName:"", artistsAmount:1, star:"", craftID:""}
-]
+-返回：{
+	code : 0,
+	message : "success",
+	data : [
+		{craftPhotoUrl : "", craftName:"", artistsAmount:1, 	star:"", craftID:""}
+	]
+}
+
+##艺人列表
+###获取艺人列表
+-名称:`getArtistsList`
+-参数: craftID, districtID, page, pageNum
+-返回: {
+	code : 0,
+	message : "success",
+	data : [
+		{
+			avatarUrl : '',
+			artistName : '',
+			score : 4.5,
+			orderNum : 100,
+			description : '',
+			artistID : 1
+		}
+	]
+}
+
+###获取个人作品
+-名称: `getWorks`
+-参数: artistID, page, pageNum
+-返回: {
+	code : 0,
+	message : "success",
+	data : [
+		{
+			workID : 1,
+			workName : '',
+			workPhotos : ["","",],
+			likeNum : 100,
+			createTime : 14400000,
+			descript : '',
+			processingCharge : 1000,
+
+	}
+	]
+}
+
+###获取个人作品
+-名称: `getWorks`
+-参数: artistID, page, pageNum
+-返回: {
+	code : 0,
+	message : "success",
+	data : [
+		{
+			workID : 1,
+			workName : '',
+			workPhotos : ["","",],
+			likeNum : 100,
+			createTime : 14400000,
+			descript : '',
+			processingCharge : 1000,
+			
+	}
+	]
+}
